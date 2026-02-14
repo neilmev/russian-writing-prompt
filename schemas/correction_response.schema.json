@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/correction_response.schema.json",
+  "title": "Russian Writing Coach Correction Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "corrected_text",
+    "patterns",
+    "key_corrections",
+    "upgrades",
+    "rewrite_checklist_ru"
+  ],
+  "properties": {
+    "corrected_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "patterns": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "rule", "examples"],
+        "properties": {
+          "title": {"type": "string", "minLength": 1},
+          "rule": {"type": "string", "minLength": 1},
+          "examples": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["bad", "good"],
+              "properties": {
+                "bad": {"type": "string", "minLength": 1},
+                "good": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      }
+    },
+    "key_corrections": {
+      "type": "array",
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["bad", "good", "tag", "note_ru"],
+        "properties": {
+          "bad": {"type": "string", "minLength": 1},
+          "good": {"type": "string", "minLength": 1},
+          "tag": {
+            "type": "string",
+            "enum": [
+              "падеж",
+              "вид",
+              "порядок слов",
+              "лексика",
+              "согласование",
+              "стилистика",
+              "пунктуация"
+            ]
+          },
+          "note_ru": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "upgrades": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "before", "after", "note_ru"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["нейтр", "разговорн", "официальн"]
+          },
+          "before": {"type": "string", "minLength": 1},
+          "after": {"type": "string", "minLength": 1},
+          "note_ru": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "rewrite_checklist_ru": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 6,
+      "items": {"type": "string", "minLength": 1},
+      "contains": {
+        "const": "Теперь перепиши текст, сохранив смысл. Используй исправления."
+      }
+    }
+  }
+}
